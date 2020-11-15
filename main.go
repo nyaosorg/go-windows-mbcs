@@ -1,7 +1,13 @@
 package mbcs
 
+import (
+	"errors"
+)
+
 const THREAD_ACP = 3
 const ACP = 0
+
+var ErrUnsupportedOs = errors.New("Unsupported OS")
 
 // AtoU Converts Ansi-bytes to UTF8-String
 func AtoU(mbcs []byte, codepage uintptr) (string, error) {
