@@ -20,6 +20,12 @@ var expect2 = []string{
 	`判定できるかな`,
 }
 
+var expect3 = []string{
+	`UTF8-BOM`,
+	`で書いた。サンプルテキストです。`,
+	`判定できるかな`,
+}
+
 func compareFileAndArray(t *testing.T, fname string, expect []string) bool {
 	// println(runtime.GOOS)
 	if runtime.GOOS != "windows" {
@@ -50,6 +56,9 @@ func TestFilter(t *testing.T) {
 		return
 	}
 	if !compareFileAndArray(t, "testdata2.txt", expect2) {
+		return
+	}
+	if !compareFileAndArray(t, "testdata-bom.txt", expect3) {
 		return
 	}
 }
