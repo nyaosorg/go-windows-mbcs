@@ -16,6 +16,8 @@ const (
 	_Utf8Fixed
 )
 
+// Filter is the class like bufio.Scanner but detects the encoding-type
+// and converts to utf8 on Windows. On other OSes, it works like bufio.Scanner
 type Filter struct {
 	sc       *bufio.Scanner
 	text     string
@@ -24,20 +26,18 @@ type Filter struct {
 	codepage uintptr
 }
 
-func (f *Filter) ForceGuessAlways() {
+func (f *Filter) forceGuessAlways() {
 	f.status = _GuessAlways
 }
 
-func NewFilter(r io.Reader, codepage uintptr) *Filter {
+func newFilter(r io.Reader, codepage uintptr) *Filter {
 	return &Filter{
 		sc:       bufio.NewScanner(r),
 		codepage: codepage,
 	}
 }
 
-var _BOM = []byte{0xEF, 0xBB, 0xBF}
-
-func (f *Filter) Scan() bool {
+func (f *Filter) scan() bool {
 	if !f.sc.Scan() {
 		f.err = f.sc.Err()
 		return false
@@ -72,11 +72,4 @@ func (f *Filter) Scan() bool {
 		f.status = _AnsiFixed
 	}
 	return true
-}
-func (f *Filter) Text() string {
-	return f.text
-}
-
-func (f *Filter) Err() error {
-	return f.err
 }

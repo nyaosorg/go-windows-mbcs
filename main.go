@@ -4,9 +4,15 @@ import (
 	"errors"
 )
 
+// THREAD_ACP is the constant meaning the active codepage for thread
 const THREAD_ACP = 3
+
+// ACP is the constant meaning the active codepage for OS
 const ACP = 0
 
+var _BOM = []byte{0xEF, 0xBB, 0xBF}
+
+// ErrUnsupportedOs is return value when AtoU,UtoA is called on not Windows
 var ErrUnsupportedOs = errors.New("Unsupported OS")
 
 // AtoU Converts Ansi-bytes to UTF8-String

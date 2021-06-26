@@ -27,11 +27,6 @@ var expect3 = []string{
 }
 
 func compareFileAndArray(t *testing.T, fname string, expect []string) bool {
-	// println(runtime.GOOS)
-	if runtime.GOOS != "windows" {
-		// println("test is not required")
-		return true
-	}
 	fd, err := os.Open(fname)
 	if err != nil {
 		t.Fatal(err.Error())
@@ -52,13 +47,16 @@ func compareFileAndArray(t *testing.T, fname string, expect []string) bool {
 }
 
 func TestFilter(t *testing.T) {
-	if !compareFileAndArray(t, "testdata1.txt", expect1) {
-		return
-	}
-	if !compareFileAndArray(t, "testdata2.txt", expect2) {
+	if !compareFileAndArray(t, "testdata-utf8.txt", expect2) {
 		return
 	}
 	if !compareFileAndArray(t, "testdata-bom.txt", expect3) {
+		return
+	}
+	if runtime.GOOS != "windows" {
+		return
+	}
+	if !compareFileAndArray(t, "testdata-cp932.txt", expect1) {
 		return
 	}
 }
