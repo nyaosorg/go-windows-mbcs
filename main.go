@@ -24,3 +24,8 @@ func AtoU(mbcs []byte, codepage uintptr) (string, error) {
 func UtoA(utf8 string, codepage uintptr) ([]byte, error) {
 	return utoa(utf8, codepage)
 }
+
+// ConsoleCP returns Codepage number of Console.
+func ConsoleCP() uintptr {
+	return consoleCP()
+}

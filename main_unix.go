@@ -11,3 +11,7 @@ func atou(mbcs []byte, codepage uintptr) (string, error) {
 func utoa(utf8 string, codepage uintptr) ([]byte, error) {
 	return []byte(utf8), ErrUnsupportedOs
 }
+
+func consoleCP() uintptr {
+	return ACP
+}

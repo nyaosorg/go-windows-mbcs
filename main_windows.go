@@ -9,6 +9,7 @@ import (
 var kernel32 = windows.NewLazySystemDLL("kernel32")
 var multiByteToWideChar = kernel32.NewProc("MultiByteToWideChar")
 var wideCharToMultiByte = kernel32.NewProc("WideCharToMultiByte")
+var getConsoleCP = kernel32.NewProc("GetConsoleCP")
 
 func atou(mbcs []byte, codepage uintptr) (string, error) {
 	if mbcs == nil || len(mbcs) <= 0 {
@@ -59,4 +60,9 @@ func utoa(utf8 string, codepage uintptr) ([]byte, error) {
 		mbcs = mbcs[:size-1]
 	}
 	return mbcs, nil
+}
+
+func consoleCP() uintptr {
+	cp, _, _ := getConsoleCP.Call()
+	return cp
 }
