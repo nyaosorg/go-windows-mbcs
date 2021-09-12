@@ -1,4 +1,4 @@
-module github.com/zetamatta/go-windows-mbcs
+module github.com/nyaosorg/go-windows-mbcs
 
 go 1.16
 

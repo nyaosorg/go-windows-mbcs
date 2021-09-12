@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/zetamatta/go-windows-mbcs"
+	"github.com/nyaosorg/go-windows-mbcs"
 )
 
 func main() {
