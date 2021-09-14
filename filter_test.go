@@ -5,7 +5,7 @@ import (
 	"runtime"
 	"testing"
 
-	"github.com/zetamatta/go-windows-mbcs"
+	"github.com/nyaosorg/go-windows-mbcs"
 )
 
 var expect1 = []string{

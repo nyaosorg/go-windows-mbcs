@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/zetamatta/go-windows-mbcs"
+	"github.com/nyaosorg/go-windows-mbcs"
 )
 
 func TestConsoleCP(t *testing.T) {
