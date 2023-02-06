@@ -57,17 +57,3 @@ func main() {
     }
 }
 ```
-
-Filter from ANSI/UTF8 to UTF8
------------------------------
-
-`Filter` is the class like bufio.Scanner but judges whther the code is UTF8 or ANSI automatically.
-
-```go
-func main() {
-    filter := mbcs.NewFilter(os.Stdin, mbcs.ACP)
-    for filter.Scan() {
-        println(filter.Text())
-    }
-}
-```
