@@ -47,16 +47,16 @@ func compareFileAndArray(t *testing.T, fname string, expect []string) bool {
 }
 
 func TestFilter(t *testing.T) {
-	if !compareFileAndArray(t, "testdata-utf8.txt", expect2) {
+	if !compareFileAndArray(t, "testdata/testdata-utf8.txt", expect2) {
 		return
 	}
-	if !compareFileAndArray(t, "testdata-bom.txt", expect3) {
+	if !compareFileAndArray(t, "testdata/testdata-bom.txt", expect3) {
 		return
 	}
 	if runtime.GOOS != "windows" {
 		return
 	}
-	if !compareFileAndArray(t, "testdata-cp932.txt", expect1) {
+	if !compareFileAndArray(t, "testdata/testdata-cp932.txt", expect1) {
 		return
 	}
 }

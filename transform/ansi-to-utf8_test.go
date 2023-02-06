@@ -12,13 +12,13 @@ import (
 )
 
 func TestAnsiToUtf8Transformer(t *testing.T) {
-	srcFd, err := os.Open("../jugemu-cp932.txt")
+	srcFd, err := os.Open("../testdata/jugemu-cp932.txt")
 	if err != nil {
 		t.Fatal(err.Error())
 	}
 	defer srcFd.Close()
 
-	expectUtf8, err := os.ReadFile("../jugemu-utf8.txt")
+	expectUtf8, err := os.ReadFile("../testdata/jugemu-utf8.txt")
 	if err != nil {
 		t.Fatal(err.Error())
 	}

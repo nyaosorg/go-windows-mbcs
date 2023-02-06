@@ -12,13 +12,13 @@ import (
 )
 
 func TestUtf8ToAnsiTransformer(t *testing.T) {
-	srcFd, err := os.Open("../jugemu-utf8.txt")
+	srcFd, err := os.Open("../testdata/jugemu-utf8.txt")
 	if err != nil {
 		t.Fatal(err.Error())
 	}
 	defer srcFd.Close()
 
-	expectCp932, err := os.ReadFile("../jugemu-cp932.txt")
+	expectCp932, err := os.ReadFile("../testdata/jugemu-cp932.txt")
 	if err != nil {
 		t.Fatal(err.Error())
 	}

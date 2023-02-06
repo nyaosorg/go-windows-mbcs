@@ -38,11 +38,11 @@ func TestConsoleCP(t *testing.T) {
 
 func readJugemu(t *testing.T) (cp932, utf8 []byte) {
 	var err error
-	cp932, err = os.ReadFile("jugemu-cp932.txt")
+	cp932, err = os.ReadFile("testdata/jugemu-cp932.txt")
 	if err != nil {
 		t.Fatal(err.Error())
 	}
-	utf8, err = os.ReadFile("jugemu-utf8.txt")
+	utf8, err = os.ReadFile("testdata/jugemu-utf8.txt")
 	if err != nil {
 		t.Fatal(err.Error())
 	}
