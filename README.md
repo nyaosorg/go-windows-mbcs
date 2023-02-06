@@ -1,3 +1,5 @@
+[![Go Reference](https://pkg.go.dev/badge/github.com/nyaosorg/go-windows-mbcs.svg)](https://pkg.go.dev/github.com/nyaosorg/go-windows-mbcs)
+
 go-windows-mbcs
 ===============
 
