@@ -8,12 +8,15 @@ import (
 	"github.com/nyaosorg/go-windows-mbcs/internal/core"
 )
 
+// Utf8ToAnsiTransformer is a transformer implementation that converts UTF8 strings to ANSI strings.
 type Utf8ToAnsiTransformer struct {
 	CodePage uintptr
 }
 
+// Reset does nothing in Utf8ToAnsiTransformer
 func (f Utf8ToAnsiTransformer) Reset() {}
 
+// Transform converts the UTF8 string in src to an ANSI string and stores it in dst.
 func (f Utf8ToAnsiTransformer) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err error) {
 	for len(src) > 0 {
 		// println("called Transform")
