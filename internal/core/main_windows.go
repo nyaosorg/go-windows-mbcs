@@ -11,7 +11,7 @@ var multiByteToWideChar = kernel32.NewProc("MultiByteToWideChar")
 var wideCharToMultiByte = kernel32.NewProc("WideCharToMultiByte")
 var getConsoleCP = kernel32.NewProc("GetConsoleCP")
 
-func Atou(mbcs []byte, codepage uintptr) (string, error) {
+func AnsiToUtf8(mbcs []byte, codepage uintptr) (string, error) {
 	if mbcs == nil || len(mbcs) <= 0 {
 		return "", nil
 	}
@@ -34,7 +34,7 @@ func Atou(mbcs []byte, codepage uintptr) (string, error) {
 	return windows.UTF16ToString(utf16), nil
 }
 
-func Utoa(utf8 string, codepage uintptr) ([]byte, error) {
+func Utf8ToAnsi(utf8 string, codepage uintptr) ([]byte, error) {
 	utf16, err := windows.UTF16FromString(utf8)
 	if err != nil {
 		return nil, err

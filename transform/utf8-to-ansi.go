@@ -5,7 +5,7 @@ import (
 
 	"golang.org/x/text/transform"
 
-	"github.com/nyaosorg/go-windows-mbcs"
+	"github.com/nyaosorg/go-windows-mbcs/internal/core"
 )
 
 type Utf8ToAnsiTransformer struct {
@@ -29,7 +29,7 @@ func (f Utf8ToAnsiTransformer) Transform(dst, src []byte, atEOF bool) (nDst, nSr
 			n++
 			from = src[:n]
 		}
-		to, err := mbcs.Utf8ToAnsi(string(from), f.CodePage)
+		to, err := core.Utf8ToAnsi(string(from), f.CodePage)
 		if err != nil {
 			return nDst, nSrc, err
 		}

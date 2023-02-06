@@ -24,7 +24,7 @@ func TestConsoleCP(t *testing.T) {
 		t.Fatalf("chcp: %s", err.Error())
 		return
 	}
-	outputString, err := mbcs.AtoU(outputBytes, actual)
+	outputString, err := mbcs.AnsiToUtf8(outputBytes, actual)
 	if err != nil {
 		t.Fatalf("mbcs.AtoU: %s", err.Error())
 		return

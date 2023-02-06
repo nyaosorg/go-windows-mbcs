@@ -18,22 +18,22 @@ var ErrUnsupportedOs = core.ErrUnsupportedOs
 
 // Deprecated: use AnsiToUtf8
 func AtoU(ansi []byte, codepage uintptr) (string, error) {
-	return core.Atou(ansi, codepage)
+	return core.AnsiToUtf8(ansi, codepage)
 }
 
 // AnsiToUtf8 Converts Ansi-bytes to UTF8-String
 func AnsiToUtf8(ansi []byte, codepage uintptr) (utf8 string, err error) {
-	return core.Atou(ansi, codepage)
+	return core.AnsiToUtf8(ansi, codepage)
 }
 
 // Deprecated: use Utf8ToAnsi
 func UtoA(utf8 string, codepage uintptr) (ansi []byte, err error) {
-	return core.Utoa(utf8, codepage)
+	return core.Utf8ToAnsi(utf8, codepage)
 }
 
 // Utf8ToAnsi Converts UTF8-String to Ansi-bytes
 func Utf8ToAnsi(utf8 string, codepage uintptr) (ansi []byte, err error) {
-	return core.Utoa(utf8, codepage)
+	return core.Utf8ToAnsi(utf8, codepage)
 }
 
 // ConsoleCP returns Codepage number of Console.

@@ -4,12 +4,12 @@
 package core
 
 // AtoU Converts Ansi-bytes to UTF8-String
-func Atou(mbcs []byte, codepage uintptr) (string, error) {
+func AnsiToUtf8(mbcs []byte, codepage uintptr) (string, error) {
 	return string(mbcs), ErrUnsupportedOs
 }
 
 // UtoA Converts UTF8-String to Ansi-bytes
-func Utoa(utf8 string, codepage uintptr) ([]byte, error) {
+func Utf8ToAnsi(utf8 string, codepage uintptr) ([]byte, error) {
 	return []byte(utf8), ErrUnsupportedOs
 }
 

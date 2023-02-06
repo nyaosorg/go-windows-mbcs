@@ -6,7 +6,7 @@ import (
 
 	"golang.org/x/text/transform"
 
-	"github.com/nyaosorg/go-windows-mbcs"
+	"github.com/nyaosorg/go-windows-mbcs/internal/core"
 )
 
 type AutoDetectTransformer struct {
@@ -35,7 +35,7 @@ func (f AutoDetectTransformer) Transform(dst, src []byte, atEOF bool) (nDst, nSr
 			to = string(from)
 		} else {
 			var err error
-			to, err = mbcs.AnsiToUtf8(from, f.CodePage)
+			to, err = core.AnsiToUtf8(from, f.CodePage)
 			if err != nil {
 				return nDst, nSrc, err
 			}
