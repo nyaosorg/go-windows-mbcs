@@ -15,13 +15,22 @@ var _BOM = []byte{0xEF, 0xBB, 0xBF}
 // ErrUnsupportedOs is return value when AtoU,UtoA is called on not Windows
 var ErrUnsupportedOs = errors.New("Unsupported OS")
 
-// AtoU Converts Ansi-bytes to UTF8-String
-func AtoU(mbcs []byte, codepage uintptr) (string, error) {
-	return atou(mbcs, codepage)
+// Deprecated: use AnsiToUtf8
+func AtoU(ansi []byte, codepage uintptr) (string, error) {
+	return atou(ansi, codepage)
 }
 
-// UtoA Converts UTF8-String to Ansi-bytes
-func UtoA(utf8 string, codepage uintptr) ([]byte, error) {
+// AnsiToUtf8 Converts Ansi-bytes to UTF8-String
+func AnsiToUtf8(ansi []byte, codepage uintptr) (utf8 string, err error) {
+	return atou(ansi, codepage)
+}
+
+func UtoA(utf8 string, codepage uintptr) (ansi []byte, err error) {
+	return utoa(utf8, codepage)
+}
+
+// Utf8ToAnsi Converts UTF8-String to Ansi-bytes
+func Utf8ToAnsi(utf8 string, codepage uintptr) (ansi []byte, err error) {
 	return utoa(utf8, codepage)
 }
 
