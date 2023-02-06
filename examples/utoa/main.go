@@ -11,7 +11,7 @@ import (
 func main() {
 	sc := bufio.NewScanner(os.Stdin)
 	for sc.Scan() {
-		bytes, err := mbcs.UtoA(sc.Text(), mbcs.ACP)
+		bytes, err := mbcs.Utf8ToAnsi(sc.Text(), mbcs.ACP)
 		if err != nil {
 			fmt.Fprintln(os.Stderr, err.Error())
 			os.Exit(1)
