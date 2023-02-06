@@ -34,7 +34,7 @@ func compareFileAndArray(t *testing.T, fname string, expect []string) bool {
 	}
 	defer fd.Close()
 
-	sc := mbcsfilter.NewFilter(fd, 932)
+	sc := mbcsfilter.New(fd, 932)
 	i := 0
 	for sc.Scan() {
 		if sc.Text() != expect[i] {

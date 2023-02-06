@@ -1,21 +1,20 @@
 package mbcs
 
 import (
-	"errors"
 	"io"
 
 	"github.com/nyaosorg/go-windows-mbcs/filter"
-	core "github.com/nyaosorg/go-windows-mbcs/internal/core"
+	"github.com/nyaosorg/go-windows-mbcs/internal/core"
 )
 
 // THREAD_ACP is the constant meaning the active codepage for thread
 const THREAD_ACP = 3
 
 // ACP is the constant meaning the active codepage for OS
-const ACP = 0
+const ACP = core.ACP
 
 // ErrUnsupportedOs is return value when AtoU,UtoA is called on not Windows
-var ErrUnsupportedOs = errors.New("Unsupported OS")
+var ErrUnsupportedOs = core.ErrUnsupportedOs
 
 // Deprecated: use AnsiToUtf8
 func AtoU(ansi []byte, codepage uintptr) (string, error) {

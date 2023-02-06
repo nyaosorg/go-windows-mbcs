@@ -1,7 +1,7 @@
 //go:build !windows
 // +build !windows
 
-package mbcs
+package core
 
 // AtoU Converts Ansi-bytes to UTF8-String
 func Atou(mbcs []byte, codepage uintptr) (string, error) {

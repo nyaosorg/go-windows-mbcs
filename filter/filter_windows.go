@@ -6,7 +6,7 @@ import (
 	"io"
 	"unicode/utf8"
 
-	core "github.com/nyaosorg/go-windows-mbcs/internal/core"
+	"github.com/nyaosorg/go-windows-mbcs/internal/core"
 )
 
 type _Status int

@@ -1,4 +1,4 @@
-package mbcs
+package core
 
 import (
 	"unsafe"
