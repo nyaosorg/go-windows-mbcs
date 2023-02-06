@@ -27,6 +27,7 @@ func AnsiToUtf8(ansi []byte, codepage uintptr) (utf8 string, err error) {
 	return core.Atou(ansi, codepage)
 }
 
+// Deprecated: use Utf8ToAnsi
 func UtoA(utf8 string, codepage uintptr) (ansi []byte, err error) {
 	return core.Utoa(utf8, codepage)
 }
