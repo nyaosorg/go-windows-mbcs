@@ -41,7 +41,7 @@ func ConsoleCP() uintptr {
 	return core.ConsoleCP()
 }
 
-// Deprecated: use "github.com/nyaosrorg/go-windows-mbcs/filter".New() instead
+// Deprecated: use "github.com/nyaosrorg/go-windows-mbcs/transform" instead
 func NewFilter(r io.Reader, codepage uintptr) *mbcsfilter.Filter {
 	return mbcsfilter.New(r, codepage)
 }
