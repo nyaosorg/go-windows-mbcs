@@ -1,8 +1,10 @@
-package mbcs
+package mbcsfilter
 
 import (
 	"io"
 )
+
+var _BOM = []byte{0xEF, 0xBB, 0xBF}
 
 // ForceGuessAlways should be called when you should guess
 // the encoding for each line repeadedly
@@ -10,8 +12,8 @@ func (f *Filter) ForceGuessAlways() {
 	f.forceGuessAlways()
 }
 
-// NewFilter is the constructor for Filter
-func NewFilter(r io.Reader, codepage uintptr) *Filter {
+// New is the constructor for Filter
+func New(r io.Reader, codepage uintptr) *Filter {
 	return newFilter(r, codepage)
 }
 

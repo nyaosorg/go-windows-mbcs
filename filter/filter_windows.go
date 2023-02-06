@@ -1,10 +1,12 @@
-package mbcs
+package mbcsfilter
 
 import (
 	"bufio"
 	"bytes"
 	"io"
 	"unicode/utf8"
+
+	core "github.com/nyaosorg/go-windows-mbcs/internal/core"
 )
 
 type _Status int
@@ -64,7 +66,7 @@ func (f *Filter) scan() bool {
 			return true
 		}
 	}
-	f.text, f.err = AtoU(line, f.codepage)
+	f.text, f.err = core.Atou(line, f.codepage)
 	if f.err != nil {
 		return false
 	}
