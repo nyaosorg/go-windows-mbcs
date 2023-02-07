@@ -8,7 +8,7 @@ import (
 
 // Decoder is a transform.Transformer implementation that converts ANSI strings to UTF8 strings.
 type Decoder struct {
-	CodePage uintptr
+	CP uintptr
 }
 
 // Reset does nothing in Decoder
@@ -30,7 +30,7 @@ func (f Decoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err err
 			n++
 			from = src[:n]
 		}
-		to, err := ansiToUtf8(from, f.CodePage)
+		to, err := ansiToUtf8(from, f.CP)
 		if err != nil {
 			return nDst, nSrc, err
 		}

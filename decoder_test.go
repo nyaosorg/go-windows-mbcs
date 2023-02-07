@@ -22,7 +22,7 @@ func TestDecoderByReader(t *testing.T) {
 	if err != nil {
 		t.Fatal(err.Error())
 	}
-	r := transform.NewReader(srcFd, mbcs.Decoder{CodePage: 932})
+	r := transform.NewReader(srcFd, mbcs.Decoder{CP: 932})
 	resultUtf8, err := io.ReadAll(r)
 	if err != nil {
 		t.Fatal(err.Error())
@@ -45,7 +45,7 @@ func TestDecoderByWriter(t *testing.T) {
 	}
 
 	var buffer bytes.Buffer
-	w := transform.NewWriter(&buffer, mbcs.Decoder{CodePage: 932})
+	w := transform.NewWriter(&buffer, mbcs.Decoder{CP: 932})
 	io.Copy(w, srcFd)
 	w.Close()
 	resultUtf8 := buffer.Bytes()

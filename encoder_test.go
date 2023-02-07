@@ -22,7 +22,7 @@ func TestEncoder(t *testing.T) {
 	if err != nil {
 		t.Fatal(err.Error())
 	}
-	r := transform.NewReader(srcFd, mbcs.Encoder{CodePage: 932})
+	r := transform.NewReader(srcFd, mbcs.Encoder{CP: 932})
 	resultCp932, err := io.ReadAll(r)
 	if err != nil {
 		t.Fatal(err.Error())

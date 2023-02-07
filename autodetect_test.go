@@ -22,7 +22,7 @@ func testFiles(t *testing.T, aFilePath, uFilePath string) {
 	if err != nil {
 		t.Fatal(err.Error())
 	}
-	r := transform.NewReader(srcFd, mbcs.AutoDecoder{CodePage: 932})
+	r := transform.NewReader(srcFd, mbcs.AutoDecoder{CP: 932})
 	resultUtf8, err := io.ReadAll(r)
 	if err != nil {
 		t.Fatal(err.Error())

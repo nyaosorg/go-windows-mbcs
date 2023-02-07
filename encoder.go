@@ -8,7 +8,7 @@ import (
 
 // Encoder is a transformer implementation that converts UTF8 strings to ANSI strings.
 type Encoder struct {
-	CodePage uintptr
+	CP uintptr
 }
 
 // Reset does nothing in Encoder
@@ -30,7 +30,7 @@ func (f Encoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err err
 			n++
 			from = src[:n]
 		}
-		to, err := utf8ToAnsi(string(from), f.CodePage)
+		to, err := utf8ToAnsi(string(from), f.CP)
 		if err != nil {
 			return nDst, nSrc, err
 		}

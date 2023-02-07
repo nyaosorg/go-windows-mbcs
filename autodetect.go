@@ -9,7 +9,7 @@ import (
 
 // AutoDecoder is an implementation of transform.Transformer that converts strings that are unknown to ANSI or UTF8 to UTF8.
 type AutoDecoder struct {
-	CodePage uintptr
+	CP uintptr
 }
 
 // Reset does nothing in AutoDecoder
@@ -36,7 +36,7 @@ func (f AutoDecoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err
 			to = string(from)
 		} else {
 			var err error
-			to, err = ansiToUtf8(from, f.CodePage)
+			to, err = ansiToUtf8(from, f.CP)
 			if err != nil {
 				return nDst, nSrc, err
 			}
