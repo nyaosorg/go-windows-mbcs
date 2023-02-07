@@ -1,4 +1,4 @@
-package mbcstrans
+package encoding
 
 import (
 	"bytes"
@@ -9,16 +9,16 @@ import (
 	"github.com/nyaosorg/go-windows-mbcs/internal/core"
 )
 
-// AutoDetectTransformer is an implementation of transform.Transformer that converts strings that are unknown to ANSI or UTF8 to UTF8.
-type AutoDetectTransformer struct {
+// AutoDecoder is an implementation of transform.Transformer that converts strings that are unknown to ANSI or UTF8 to UTF8.
+type AutoDecoder struct {
 	CodePage uintptr
 }
 
-// Reset does nothing in AutoDetectTransformer
-func (f AutoDetectTransformer) Reset() {}
+// Reset does nothing in AutoDecoder
+func (f AutoDecoder) Reset() {}
 
 // Transform converts a strings that are unknown to ANSI or UTF8 in src to a UTF8 string and stores it in dst.
-func (f AutoDetectTransformer) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err error) {
+func (f AutoDecoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err error) {
 	for len(src) > 0 {
 		// println("called Transform")
 		n := bytes.IndexByte(src, '\n')

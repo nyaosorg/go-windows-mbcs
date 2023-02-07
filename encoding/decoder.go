@@ -1,4 +1,4 @@
-package mbcstrans
+package encoding
 
 import (
 	"bytes"
@@ -8,16 +8,16 @@ import (
 	"github.com/nyaosorg/go-windows-mbcs/internal/core"
 )
 
-// AnsiToUtf8 is a transform.Transformer implementation that converts ANSI strings to UTF8 strings.
-type AnsiToUtf8Transformer struct {
+// Decoder is a transform.Transformer implementation that converts ANSI strings to UTF8 strings.
+type Decoder struct {
 	CodePage uintptr
 }
 
-// Reset does nothing in AnsiToUtf8Transformer
-func (f AnsiToUtf8Transformer) Reset() {}
+// Reset does nothing in Decoder
+func (f Decoder) Reset() {}
 
 // Transform converts the ANSI string in src to a UTF8 string and stores it in dst.
-func (f AnsiToUtf8Transformer) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err error) {
+func (f Decoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err error) {
 	for len(src) > 0 {
 		// println("called Transform")
 		n := bytes.IndexByte(src, '\n')

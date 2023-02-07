@@ -1,4 +1,4 @@
-package mbcstrans_test
+package encoding_test
 
 import (
 	"bytes"
@@ -8,10 +8,10 @@ import (
 
 	"golang.org/x/text/transform"
 
-	"github.com/nyaosorg/go-windows-mbcs/transform"
+	"github.com/nyaosorg/go-windows-mbcs/encoding"
 )
 
-func TestAnsiToUtf8TransformerByReader(t *testing.T) {
+func TestDecoderByReader(t *testing.T) {
 	srcFd, err := os.Open("../testdata/jugemu-cp932.txt")
 	if err != nil {
 		t.Fatal(err.Error())
@@ -22,7 +22,7 @@ func TestAnsiToUtf8TransformerByReader(t *testing.T) {
 	if err != nil {
 		t.Fatal(err.Error())
 	}
-	r := transform.NewReader(srcFd, mbcstrans.AnsiToUtf8Transformer{CodePage: 932})
+	r := transform.NewReader(srcFd, encoding.Decoder{CodePage: 932})
 	resultUtf8, err := io.ReadAll(r)
 	if err != nil {
 		t.Fatal(err.Error())
@@ -32,7 +32,7 @@ func TestAnsiToUtf8TransformerByReader(t *testing.T) {
 	}
 }
 
-func TestAnsiToUtf8TransformerByWriter(t *testing.T) {
+func TestDecoderByWriter(t *testing.T) {
 	srcFd, err := os.Open("../testdata/jugemu-cp932.txt")
 	if err != nil {
 		t.Fatal(err.Error())
@@ -45,7 +45,7 @@ func TestAnsiToUtf8TransformerByWriter(t *testing.T) {
 	}
 
 	var buffer bytes.Buffer
-	w := transform.NewWriter(&buffer, mbcstrans.AnsiToUtf8Transformer{CodePage: 932})
+	w := transform.NewWriter(&buffer, encoding.Decoder{CodePage: 932})
 	io.Copy(w, srcFd)
 	w.Close()
 	resultUtf8 := buffer.Bytes()

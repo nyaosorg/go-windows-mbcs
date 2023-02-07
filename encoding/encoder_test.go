@@ -1,4 +1,4 @@
-package mbcstrans_test
+package encoding_test
 
 import (
 	"bytes"
@@ -8,10 +8,10 @@ import (
 
 	"golang.org/x/text/transform"
 
-	"github.com/nyaosorg/go-windows-mbcs/transform"
+	"github.com/nyaosorg/go-windows-mbcs/encoding"
 )
 
-func TestUtf8ToAnsiTransformer(t *testing.T) {
+func TestEncoder(t *testing.T) {
 	srcFd, err := os.Open("../testdata/jugemu-utf8.txt")
 	if err != nil {
 		t.Fatal(err.Error())
@@ -22,7 +22,7 @@ func TestUtf8ToAnsiTransformer(t *testing.T) {
 	if err != nil {
 		t.Fatal(err.Error())
 	}
-	r := transform.NewReader(srcFd, mbcstrans.Utf8ToAnsiTransformer{CodePage: 932})
+	r := transform.NewReader(srcFd, encoding.Encoder{CodePage: 932})
 	resultCp932, err := io.ReadAll(r)
 	if err != nil {
 		t.Fatal(err.Error())

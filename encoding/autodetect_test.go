@@ -1,4 +1,4 @@
-package mbcstrans_test
+package encoding_test
 
 import (
 	"bytes"
@@ -8,7 +8,7 @@ import (
 
 	"golang.org/x/text/transform"
 
-	"github.com/nyaosorg/go-windows-mbcs/transform"
+	"github.com/nyaosorg/go-windows-mbcs/encoding"
 )
 
 func testFiles(t *testing.T, aFilePath, uFilePath string) {
@@ -22,7 +22,7 @@ func testFiles(t *testing.T, aFilePath, uFilePath string) {
 	if err != nil {
 		t.Fatal(err.Error())
 	}
-	r := transform.NewReader(srcFd, mbcstrans.AutoDetectTransformer{CodePage: 932})
+	r := transform.NewReader(srcFd, encoding.AutoDecoder{CodePage: 932})
 	resultUtf8, err := io.ReadAll(r)
 	if err != nil {
 		t.Fatal(err.Error())
@@ -32,10 +32,10 @@ func testFiles(t *testing.T, aFilePath, uFilePath string) {
 	}
 }
 
-func TestAutoDetectFromCP932ToUTF8(t *testing.T) {
+func TestAutoDecoderFromCP932ToUTF8(t *testing.T) {
 	testFiles(t, "../testdata/jugemu-cp932.txt", "../testdata/jugemu-utf8.txt")
 }
 
-func TestAutoDetectFromUTF8ToUTF8(t *testing.T) {
+func TestAutoDecoderFromUTF8ToUTF8(t *testing.T) {
 	testFiles(t, "../testdata/jugemu-utf8.txt", "../testdata/jugemu-utf8.txt")
 }
