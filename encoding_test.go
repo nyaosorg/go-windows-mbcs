@@ -11,7 +11,7 @@ import (
 	"github.com/nyaosorg/go-windows-mbcs"
 )
 
-func testFiles(t *testing.T, aFilePath, uFilePath string) {
+func testFiles(t *testing.T, aFilePath, uFilePath string, tr transform.Transformer) {
 	srcFd, err := os.Open(aFilePath)
 	if err != nil {
 		t.Fatal(err.Error())
@@ -22,7 +22,7 @@ func testFiles(t *testing.T, aFilePath, uFilePath string) {
 	if err != nil {
 		t.Fatal(err.Error())
 	}
-	r := transform.NewReader(srcFd, mbcs.AutoDecoder{CP: 932})
+	r := transform.NewReader(srcFd, tr)
 	resultUtf8, err := io.ReadAll(r)
 	if err != nil {
 		t.Fatal(err.Error())
@@ -32,10 +32,16 @@ func testFiles(t *testing.T, aFilePath, uFilePath string) {
 	}
 }
 
-func TestAutoDecoderFromCP932ToUTF8(t *testing.T) {
-	testFiles(t, "testdata/jugemu-cp932.txt", "testdata/jugemu-utf8.txt")
+func TestAutoDecoderFromUTF8ToUTF8On65001(t *testing.T) {
+	testFiles(t,
+		"testdata/jugemu-utf8.txt",
+		"testdata/jugemu-utf8.txt",
+		mbcs.AutoDecoder{CP: 65001})
 }
 
-func TestAutoDecoderFromUTF8ToUTF8(t *testing.T) {
-	testFiles(t, "testdata/jugemu-utf8.txt", "testdata/jugemu-utf8.txt")
+func TestDecoderFromUTF8ToUTF8On65001(t *testing.T) {
+	testFiles(t,
+		"testdata/jugemu-utf8.txt",
+		"testdata/jugemu-utf8.txt",
+		mbcs.Decoder{CP: 65001})
 }

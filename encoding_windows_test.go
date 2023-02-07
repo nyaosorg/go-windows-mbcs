@@ -11,25 +11,25 @@ import (
 	"github.com/nyaosorg/go-windows-mbcs"
 )
 
-func TestDecoderByReader(t *testing.T) {
-	srcFd, err := os.Open("testdata/jugemu-cp932.txt")
-	if err != nil {
-		t.Fatal(err.Error())
-	}
-	defer srcFd.Close()
+func TestAutoDecoderFromCP932ToUTF8(t *testing.T) {
+	testFiles(t,
+		"testdata/jugemu-cp932.txt",
+		"testdata/jugemu-utf8.txt",
+		mbcs.AutoDecoder{CP: 932})
+}
 
-	expectUtf8, err := os.ReadFile("testdata/jugemu-utf8.txt")
-	if err != nil {
-		t.Fatal(err.Error())
-	}
-	r := transform.NewReader(srcFd, mbcs.Decoder{CP: 932})
-	resultUtf8, err := io.ReadAll(r)
-	if err != nil {
-		t.Fatal(err.Error())
-	}
-	if !bytes.Equal(expectUtf8, resultUtf8) {
-		t.Fatalf("not equal:\n%#v\nand\n%#v", expectUtf8, resultUtf8)
-	}
+func TestAutoDecoderFromUTF8ToUTF8(t *testing.T) {
+	testFiles(t,
+		"testdata/jugemu-utf8.txt",
+		"testdata/jugemu-utf8.txt",
+		mbcs.AutoDecoder{CP: 932})
+}
+
+func TestDecoderByReader(t *testing.T) {
+	testFiles(t,
+		"testdata/jugemu-cp932.txt",
+		"testdata/jugemu-utf8.txt",
+		mbcs.Decoder{CP: 932})
 }
 
 func TestDecoderByWriter(t *testing.T) {
@@ -53,4 +53,11 @@ func TestDecoderByWriter(t *testing.T) {
 	if !bytes.Equal(expectUtf8, resultUtf8) {
 		t.Fatalf("not equal:\n%#v\nand\n%#v", expectUtf8, resultUtf8)
 	}
+}
+
+func TestEncoder(t *testing.T) {
+	testFiles(t,
+		"testdata/jugemu-utf8.txt",
+		"testdata/jugemu-cp932.txt",
+		mbcs.Encoder{CP: 932})
 }
