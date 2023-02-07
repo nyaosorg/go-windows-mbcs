@@ -6,9 +6,9 @@ else
 endif
 
 all:
-	go fmt $(foreach X,filter encoding $(wildcard internal/*),&& pushd "$(X)" && go fmt && popd)
+	go fmt $(foreach X,$(wildcard internal/*),&& pushd "$(X)" && go fmt && popd)
 	go build
 
 test:
-	go test $(foreach X,filter encoding,&& pushd $(X) && go test && popd)
+	go test
 	$(SET) "GOOS=linux" && $(MAKE) all

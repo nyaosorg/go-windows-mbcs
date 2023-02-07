@@ -1,4 +1,4 @@
-package encoding
+package mbcs
 
 import (
 	"bytes"
@@ -8,16 +8,16 @@ import (
 	"github.com/nyaosorg/go-windows-mbcs/internal/core"
 )
 
-// Decoder is a transform.Transformer implementation that converts ANSI strings to UTF8 strings.
-type Decoder struct {
+// Encoder is a transformer implementation that converts UTF8 strings to ANSI strings.
+type Encoder struct {
 	CodePage uintptr
 }
 
-// Reset does nothing in Decoder
-func (f Decoder) Reset() {}
+// Reset does nothing in Encoder
+func (f Encoder) Reset() {}
 
-// Transform converts the ANSI string in src to a UTF8 string and stores it in dst.
-func (f Decoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err error) {
+// Transform converts the UTF8 string in src to an ANSI string and stores it in dst.
+func (f Encoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err error) {
 	for len(src) > 0 {
 		// println("called Transform")
 		n := bytes.IndexByte(src, '\n')
@@ -32,7 +32,7 @@ func (f Decoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err err
 			n++
 			from = src[:n]
 		}
-		to, err := core.AnsiToUtf8(from, f.CodePage)
+		to, err := core.Utf8ToAnsi(string(from), f.CodePage)
 		if err != nil {
 			return nDst, nSrc, err
 		}

@@ -1,9 +1,6 @@
 package mbcs
 
 import (
-	"io"
-
-	"github.com/nyaosorg/go-windows-mbcs/filter"
 	"github.com/nyaosorg/go-windows-mbcs/internal/core"
 )
 
@@ -39,9 +36,4 @@ func Utf8ToAnsi(utf8 string, codepage uintptr) (ansi []byte, err error) {
 // ConsoleCP returns Codepage number of Console.
 func ConsoleCP() uintptr {
 	return core.ConsoleCP()
-}
-
-// Deprecated: use "github.com/nyaosrorg/go-windows-mbcs/transform" instead
-func NewFilter(r io.Reader, codepage uintptr) *mbcsfilter.Filter {
-	return mbcsfilter.New(r, codepage)
 }

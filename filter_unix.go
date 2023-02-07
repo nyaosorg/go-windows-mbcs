@@ -1,7 +1,7 @@
 //go:build !windows
 // +build !windows
 
-package mbcsfilter
+package mbcs
 
 import (
 	"bufio"

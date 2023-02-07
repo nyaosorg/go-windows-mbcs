@@ -1,4 +1,4 @@
-package encoding_test
+package mbcs_test
 
 import (
 	"bytes"
@@ -8,21 +8,21 @@ import (
 
 	"golang.org/x/text/transform"
 
-	"github.com/nyaosorg/go-windows-mbcs/encoding"
+	"github.com/nyaosorg/go-windows-mbcs"
 )
 
 func TestDecoderByReader(t *testing.T) {
-	srcFd, err := os.Open("../testdata/jugemu-cp932.txt")
+	srcFd, err := os.Open("testdata/jugemu-cp932.txt")
 	if err != nil {
 		t.Fatal(err.Error())
 	}
 	defer srcFd.Close()
 
-	expectUtf8, err := os.ReadFile("../testdata/jugemu-utf8.txt")
+	expectUtf8, err := os.ReadFile("testdata/jugemu-utf8.txt")
 	if err != nil {
 		t.Fatal(err.Error())
 	}
-	r := transform.NewReader(srcFd, encoding.Decoder{CodePage: 932})
+	r := transform.NewReader(srcFd, mbcs.Decoder{CodePage: 932})
 	resultUtf8, err := io.ReadAll(r)
 	if err != nil {
 		t.Fatal(err.Error())
@@ -33,19 +33,19 @@ func TestDecoderByReader(t *testing.T) {
 }
 
 func TestDecoderByWriter(t *testing.T) {
-	srcFd, err := os.Open("../testdata/jugemu-cp932.txt")
+	srcFd, err := os.Open("testdata/jugemu-cp932.txt")
 	if err != nil {
 		t.Fatal(err.Error())
 	}
 	defer srcFd.Close()
 
-	expectUtf8, err := os.ReadFile("../testdata/jugemu-utf8.txt")
+	expectUtf8, err := os.ReadFile("testdata/jugemu-utf8.txt")
 	if err != nil {
 		t.Fatal(err.Error())
 	}
 
 	var buffer bytes.Buffer
-	w := transform.NewWriter(&buffer, encoding.Decoder{CodePage: 932})
+	w := transform.NewWriter(&buffer, mbcs.Decoder{CodePage: 932})
 	io.Copy(w, srcFd)
 	w.Close()
 	resultUtf8 := buffer.Bytes()

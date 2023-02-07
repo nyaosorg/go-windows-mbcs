@@ -1,4 +1,4 @@
-package encoding_test
+package mbcs_test
 
 import (
 	"bytes"
@@ -8,21 +8,21 @@ import (
 
 	"golang.org/x/text/transform"
 
-	"github.com/nyaosorg/go-windows-mbcs/encoding"
+	"github.com/nyaosorg/go-windows-mbcs"
 )
 
 func TestEncoder(t *testing.T) {
-	srcFd, err := os.Open("../testdata/jugemu-utf8.txt")
+	srcFd, err := os.Open("testdata/jugemu-utf8.txt")
 	if err != nil {
 		t.Fatal(err.Error())
 	}
 	defer srcFd.Close()
 
-	expectCp932, err := os.ReadFile("../testdata/jugemu-cp932.txt")
+	expectCp932, err := os.ReadFile("testdata/jugemu-cp932.txt")
 	if err != nil {
 		t.Fatal(err.Error())
 	}
-	r := transform.NewReader(srcFd, encoding.Encoder{CodePage: 932})
+	r := transform.NewReader(srcFd, mbcs.Encoder{CodePage: 932})
 	resultCp932, err := io.ReadAll(r)
 	if err != nil {
 		t.Fatal(err.Error())

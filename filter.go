@@ -1,4 +1,4 @@
-package mbcsfilter
+package mbcs
 
 import (
 	"io"
@@ -12,8 +12,8 @@ func (f *Filter) ForceGuessAlways() {
 	f.forceGuessAlways()
 }
 
-// New is the constructor for Filter
-func New(r io.Reader, codepage uintptr) *Filter {
+// NewFilter is the constructor for Filter
+func NewFilter(r io.Reader, codepage uintptr) *Filter {
 	return newFilter(r, codepage)
 }
 

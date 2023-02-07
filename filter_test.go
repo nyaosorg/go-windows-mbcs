@@ -1,11 +1,11 @@
-package mbcsfilter_test
+package mbcs_test
 
 import (
 	"os"
 	"runtime"
 	"testing"
 
-	"github.com/nyaosorg/go-windows-mbcs/filter"
+	"github.com/nyaosorg/go-windows-mbcs"
 )
 
 var expect1 = []string{
@@ -34,7 +34,7 @@ func compareFileAndArray(t *testing.T, fname string, expect []string) bool {
 	}
 	defer fd.Close()
 
-	sc := mbcsfilter.New(fd, 932)
+	sc := mbcs.NewFilter(fd, 932)
 	i := 0
 	for sc.Scan() {
 		if sc.Text() != expect[i] {
@@ -47,16 +47,16 @@ func compareFileAndArray(t *testing.T, fname string, expect []string) bool {
 }
 
 func TestFilter(t *testing.T) {
-	if !compareFileAndArray(t, "../testdata/testdata-utf8.txt", expect2) {
+	if !compareFileAndArray(t, "testdata/testdata-utf8.txt", expect2) {
 		return
 	}
-	if !compareFileAndArray(t, "../testdata/testdata-bom.txt", expect3) {
+	if !compareFileAndArray(t, "testdata/testdata-bom.txt", expect3) {
 		return
 	}
 	if runtime.GOOS != "windows" {
 		return
 	}
-	if !compareFileAndArray(t, "../testdata/testdata-cp932.txt", expect1) {
+	if !compareFileAndArray(t, "testdata/testdata-cp932.txt", expect1) {
 		return
 	}
 }

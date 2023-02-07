@@ -1,4 +1,4 @@
-package mbcsfilter
+package mbcs
 
 import (
 	"bufio"
