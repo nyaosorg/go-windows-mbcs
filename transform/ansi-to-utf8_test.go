@@ -11,7 +11,7 @@ import (
 	"github.com/nyaosorg/go-windows-mbcs/transform"
 )
 
-func TestAnsiToUtf8Transformer(t *testing.T) {
+func TestAnsiToUtf8TransformerByReader(t *testing.T) {
 	srcFd, err := os.Open("../testdata/jugemu-cp932.txt")
 	if err != nil {
 		t.Fatal(err.Error())
@@ -27,6 +27,29 @@ func TestAnsiToUtf8Transformer(t *testing.T) {
 	if err != nil {
 		t.Fatal(err.Error())
 	}
+	if !bytes.Equal(expectUtf8, resultUtf8) {
+		t.Fatalf("not equal:\n%#v\nand\n%#v", expectUtf8, resultUtf8)
+	}
+}
+
+func TestAnsiToUtf8TransformerByWriter(t *testing.T) {
+	srcFd, err := os.Open("../testdata/jugemu-cp932.txt")
+	if err != nil {
+		t.Fatal(err.Error())
+	}
+	defer srcFd.Close()
+
+	expectUtf8, err := os.ReadFile("../testdata/jugemu-utf8.txt")
+	if err != nil {
+		t.Fatal(err.Error())
+	}
+
+	var buffer bytes.Buffer
+	w := transform.NewWriter(&buffer, mbcstrans.AnsiToUtf8Transformer{CodePage: 932})
+	io.Copy(w, srcFd)
+	w.Close()
+	resultUtf8 := buffer.Bytes()
+
 	if !bytes.Equal(expectUtf8, resultUtf8) {
 		t.Fatalf("not equal:\n%#v\nand\n%#v", expectUtf8, resultUtf8)
 	}
