@@ -6,7 +6,7 @@ else
 endif
 
 all:
-	go fmt $(foreach X,$(wildcard internal/*),&& pushd "$(X)" && go fmt && popd)
+	go fmt
 	go build
 
 test:

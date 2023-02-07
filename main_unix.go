@@ -1,18 +1,18 @@
 //go:build !windows
 // +build !windows
 
-package core
+package mbcs
 
 // AtoU Converts Ansi-bytes to UTF8-String
-func AnsiToUtf8(mbcs []byte, codepage uintptr) (string, error) {
+func ansiToUtf8(mbcs []byte, codepage uintptr) (string, error) {
 	return string(mbcs), ErrUnsupportedOs
 }
 
 // UtoA Converts UTF8-String to Ansi-bytes
-func Utf8ToAnsi(utf8 string, codepage uintptr) ([]byte, error) {
+func utf8ToAnsi(utf8 string, codepage uintptr) ([]byte, error) {
 	return []byte(utf8), ErrUnsupportedOs
 }
 
-func ConsoleCP() uintptr {
+func consoleCP() uintptr {
 	return ACP
 }

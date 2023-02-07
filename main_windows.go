@@ -1,4 +1,4 @@
-package core
+package mbcs
 
 import (
 	"unsafe"
@@ -11,7 +11,7 @@ var multiByteToWideChar = kernel32.NewProc("MultiByteToWideChar")
 var wideCharToMultiByte = kernel32.NewProc("WideCharToMultiByte")
 var getConsoleCP = kernel32.NewProc("GetConsoleCP")
 
-func AnsiToUtf8(mbcs []byte, codepage uintptr) (string, error) {
+func ansiToUtf8(mbcs []byte, codepage uintptr) (string, error) {
 	if mbcs == nil || len(mbcs) <= 0 {
 		return "", nil
 	}
@@ -34,7 +34,7 @@ func AnsiToUtf8(mbcs []byte, codepage uintptr) (string, error) {
 	return windows.UTF16ToString(utf16), nil
 }
 
-func Utf8ToAnsi(utf8 string, codepage uintptr) ([]byte, error) {
+func utf8ToAnsi(utf8 string, codepage uintptr) ([]byte, error) {
 	utf16, err := windows.UTF16FromString(utf8)
 	if err != nil {
 		return nil, err
@@ -62,7 +62,7 @@ func Utf8ToAnsi(utf8 string, codepage uintptr) ([]byte, error) {
 	return mbcs, nil
 }
 
-func ConsoleCP() uintptr {
+func consoleCP() uintptr {
 	cp, _, _ := getConsoleCP.Call()
 	return cp
 }

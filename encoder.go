@@ -4,8 +4,6 @@ import (
 	"bytes"
 
 	"golang.org/x/text/transform"
-
-	"github.com/nyaosorg/go-windows-mbcs/internal/core"
 )
 
 // Encoder is a transformer implementation that converts UTF8 strings to ANSI strings.
@@ -32,7 +30,7 @@ func (f Encoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err err
 			n++
 			from = src[:n]
 		}
-		to, err := core.Utf8ToAnsi(string(from), f.CodePage)
+		to, err := utf8ToAnsi(string(from), f.CodePage)
 		if err != nil {
 			return nDst, nSrc, err
 		}

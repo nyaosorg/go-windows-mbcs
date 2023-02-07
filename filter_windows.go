@@ -5,8 +5,6 @@ import (
 	"bytes"
 	"io"
 	"unicode/utf8"
-
-	"github.com/nyaosorg/go-windows-mbcs/internal/core"
 )
 
 type _Status int
@@ -66,7 +64,7 @@ func (f *Filter) scan() bool {
 			return true
 		}
 	}
-	f.text, f.err = core.AnsiToUtf8(line, f.codepage)
+	f.text, f.err = ansiToUtf8(line, f.codepage)
 	if f.err != nil {
 		return false
 	}

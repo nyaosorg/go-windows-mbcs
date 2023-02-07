@@ -5,8 +5,6 @@ import (
 	"unicode/utf8"
 
 	"golang.org/x/text/transform"
-
-	"github.com/nyaosorg/go-windows-mbcs/internal/core"
 )
 
 // AutoDecoder is an implementation of transform.Transformer that converts strings that are unknown to ANSI or UTF8 to UTF8.
@@ -38,7 +36,7 @@ func (f AutoDecoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err
 			to = string(from)
 		} else {
 			var err error
-			to, err = core.AnsiToUtf8(from, f.CodePage)
+			to, err = ansiToUtf8(from, f.CodePage)
 			if err != nil {
 				return nDst, nSrc, err
 			}

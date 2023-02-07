@@ -4,8 +4,6 @@ import (
 	"bytes"
 
 	"golang.org/x/text/transform"
-
-	"github.com/nyaosorg/go-windows-mbcs/internal/core"
 )
 
 // Decoder is a transform.Transformer implementation that converts ANSI strings to UTF8 strings.
@@ -32,7 +30,7 @@ func (f Decoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err err
 			n++
 			from = src[:n]
 		}
-		to, err := core.AnsiToUtf8(from, f.CodePage)
+		to, err := ansiToUtf8(from, f.CodePage)
 		if err != nil {
 			return nDst, nSrc, err
 		}
