@@ -2,6 +2,8 @@ package mbcs
 
 import (
 	"errors"
+
+	"golang.org/x/text/transform"
 )
 
 // THREAD_ACP is the constant meaning the active codepage for thread
@@ -36,4 +38,12 @@ func Utf8ToAnsi(utf8 string, codepage uintptr) (ansi []byte, err error) {
 // ConsoleCP returns Codepage number of Console.
 func ConsoleCP() uintptr {
 	return consoleCP()
+}
+
+func NewEncoder(cp uintptr) transform.Transformer {
+	return newEncoder(cp)
+}
+
+func NewDecoder(cp uintptr) transform.Transformer {
+	return newDecoder(cp)
 }

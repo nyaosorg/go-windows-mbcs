@@ -13,6 +13,7 @@ import (
 	"golang.org/x/text/encoding/korean"
 	"golang.org/x/text/encoding/simplifiedchinese"
 	"golang.org/x/text/encoding/traditionalchinese"
+	"golang.org/x/text/transform"
 )
 
 const cpUTF8 = 65001
@@ -39,9 +40,9 @@ func getCurrentOsEncoding() (e encoding.Encoding) {
 		currentOsEncoding = e
 	}()
 	envLang, ok := os.LookupEnv("LC_ALL")
-	if !ok {
+	if !ok || envLang == "" {
 		envLang, ok = os.LookupEnv("LANG")
-		if !ok {
+		if !ok || envLang == "" {
 			return encoding.Nop
 		}
 	}
@@ -95,4 +96,26 @@ func utf8ToAnsi(utf8 string, codepage uintptr) ([]byte, error) {
 
 func consoleCP() uintptr {
 	return ACP
+}
+
+func newEncoder(cp uintptr) transform.Transformer {
+	if cp == ACP || cp == THREAD_ACP {
+		return getCurrentOsEncoding().NewEncoder()
+	}
+	enc, ok := cpToEncoding[cp]
+	if ok {
+		return enc.NewEncoder()
+	}
+	return encoding.Nop.NewEncoder()
+}
+
+func newDecoder(cp uintptr) transform.Transformer {
+	if cp == ACP || cp == THREAD_ACP {
+		return getCurrentOsEncoding().NewDecoder()
+	}
+	enc, ok := cpToEncoding[cp]
+	if ok {
+		return enc.NewDecoder()
+	}
+	return encoding.Nop.NewDecoder()
 }

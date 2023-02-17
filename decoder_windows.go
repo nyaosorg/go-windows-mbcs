@@ -6,16 +6,20 @@ import (
 	"golang.org/x/text/transform"
 )
 
-// Encoder is a transformer implementation that converts UTF8 strings to ANSI strings.
-type Encoder struct {
+func newDecoder(cp uintptr) transform.Transformer {
+	return Decoder{CP: cp}
+}
+
+// Decoder is a transform.Transformer implementation that converts ANSI strings to UTF8 strings.
+type Decoder struct {
 	CP uintptr
 }
 
-// Reset does nothing in Encoder
-func (f Encoder) Reset() {}
+// Reset does nothing in Decoder
+func (f Decoder) Reset() {}
 
-// Transform converts the UTF8 string in src to an ANSI string and stores it in dst.
-func (f Encoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err error) {
+// Transform converts the ANSI string in src to a UTF8 string and stores it in dst.
+func (f Decoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err error) {
 	for len(src) > 0 {
 		// println("called Transform")
 		n := bytes.IndexByte(src, '\n')
@@ -30,7 +34,7 @@ func (f Encoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err err
 			n++
 			from = src[:n]
 		}
-		to, err := utf8ToAnsi(string(from), f.CP)
+		to, err := ansiToUtf8(from, f.CP)
 		if err != nil {
 			return nDst, nSrc, err
 		}

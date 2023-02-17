@@ -7,6 +7,11 @@ import (
 	"golang.org/x/text/transform"
 )
 
+// NewAutoDecoder returns transform.Transformer that converts strings that are unknown to ANSI or UTF8 to UTF8.
+func NewAutoDecoder(cp uintptr) transform.Transformer {
+	return AutoDecoder{CP: cp}
+}
+
 // AutoDecoder is an implementation of transform.Transformer that converts strings that are unknown to ANSI or UTF8 to UTF8.
 type AutoDecoder struct {
 	CP uintptr
