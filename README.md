@@ -36,6 +36,24 @@ func main() {
 }
 ```
 
+`mbcs.ACP` is the current codepage.
+
+#### On Windows
+
+```
+$ chcp 932
+$ go run examples\AnsiToUtf8.go < testdata\jugemu-cp932.txt | nkf32 --guess
+UTF-8 (LF)
+```
+
+#### On Linux
+
+```
+$ env LC_ALL=ja_JP.Shift_JIS go run examples/AnsiToUtf8.go < testdata/jugemu-cp932.txt | nkf --guess
+UTF-8 (LF)
+```
+
+When OS is not Windows, the current encoding is judged with $LC_ALL and $LANG.
 
 Convert from UTF8-strings to ANSI-bytes
 ---------------------------------------
@@ -69,6 +87,21 @@ func main() {
 }
 ```
 
+#### On Windows
+
+```
+$ chcp 932
+$ go run examples\Utf8ToAnsi.go < testdata\jugemu-utf8.txt | nkf32 --guess
+Shift_JIS (LF)
+```
+
+#### On Linux
+
+```
+$ env LC_ALL=ja_JP.Shift_JIS go run examples/Utf8ToAnsi.go < testdata/jugemu-utf8.txt | nkf --guess
+Shift_JIS (LF)
+```
+
 Use golang.org/x/text/transform
 -------------------------------
 
@@ -88,7 +121,7 @@ import (
 )
 
 func main() {
-    sc := bufio.NewScanner(transform.NewReader(os.Stdin, mbcs.Decoder{CP: mbcs.ACP}))
+    sc := bufio.NewScanner(transform.NewReader(os.Stdin, mbcs.NewDecoder(mbcs.ACP)))
     for sc.Scan() {
         fmt.Println(sc.Text())
     }
@@ -97,6 +130,21 @@ func main() {
         os.Exit(1)
     }
 }
+```
+
+#### On Windows
+
+```
+$ chcp 932
+$ go run examples\NewDecoder.go < testdata\jugemu-cp932.txt | nkf32 --guess
+UTF-8 (LF)
+```
+
+#### On Linux
+
+```
+$ env LC_ALL=ja_JP.Shift_JIS go run examples/NewDecoder.go < testdata/jugemu-cp932.txt  | nkf --guess
+UTF-8 (LF)
 ```
 
 ### Convert from UTF8-reader to ANSI-reader
@@ -115,7 +163,7 @@ import (
 )
 
 func main() {
-    sc := bufio.NewScanner(transform.NewReader(os.Stdin, mbcs.Encoder{CP: mbcs.ACP}))
+    sc := bufio.NewScanner(transform.NewReader(os.Stdin, mbcs.NewEncoder(mbcs.ACP)))
     for sc.Scan() {
         os.Stdout.Write(sc.Bytes())
         os.Stdout.Write([]byte{'\n'})
@@ -125,4 +173,19 @@ func main() {
         os.Exit(1)
     }
 }
+```
+
+#### On Windows
+
+```
+$ chcp 932
+$ go run examples\NewEncoder.go < testdata/jugemu-utf8.txt  | nkf32 --guess
+Shift_JIS (LF)
+```
+
+#### On Linux
+
+```
+$ env LC_ALL=ja_JP.Shift_JIS go run examples/NewEncoder.go < testdata/jugemu-utf8.txt  | nkf --guess
+Shift_JIS (LF)
 ```
