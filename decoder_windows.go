@@ -7,19 +7,19 @@ import (
 )
 
 func newDecoder(cp uintptr) transform.Transformer {
-	return Decoder{CP: cp}
+	return _Decoder{CP: cp}
 }
 
-// Decoder is a transform.Transformer implementation that converts ANSI strings to UTF8 strings.
-type Decoder struct {
+// _Decoder is a transform.Transformer implementation that converts ANSI strings to UTF8 strings.
+type _Decoder struct {
 	CP uintptr
 }
 
-// Reset does nothing in Decoder
-func (f Decoder) Reset() {}
+// Reset does nothing in _Decoder
+func (f _Decoder) Reset() {}
 
 // Transform converts the ANSI string in src to a UTF8 string and stores it in dst.
-func (f Decoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err error) {
+func (f _Decoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err error) {
 	for len(src) > 0 {
 		// println("called Transform")
 		n := bytes.IndexByte(src, '\n')

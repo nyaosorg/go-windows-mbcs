@@ -7,19 +7,19 @@ import (
 )
 
 func newEncoder(cp uintptr) transform.Transformer {
-	return Encoder{CP: cp}
+	return _Encoder{CP: cp}
 }
 
-// Encoder is a transformer implementation that converts UTF8 strings to ANSI strings.
-type Encoder struct {
+// _Encoder is a transformer implementation that converts UTF8 strings to ANSI strings.
+type _Encoder struct {
 	CP uintptr
 }
 
-// Reset does nothing in Encoder
-func (f Encoder) Reset() {}
+// Reset does nothing in _Encoder
+func (f _Encoder) Reset() {}
 
 // Transform converts the UTF8 string in src to an ANSI string and stores it in dst.
-func (f Encoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err error) {
+func (f _Encoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err error) {
 	for len(src) > 0 {
 		// println("called Transform")
 		n := bytes.IndexByte(src, '\n')
