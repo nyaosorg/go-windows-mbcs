@@ -96,3 +96,17 @@ func TestEncoder(t *testing.T) {
 		"testdata/jugemu-cp932.txt",
 		mbcs.NewEncoder(932))
 }
+
+func TestDecoder431(t *testing.T) {
+	testFiles(t,
+		"testdata/nyagos_issue_431.txt",
+		"testdata/nyagos_issue_431.txt",
+		mbcs.NewDecoder(932))
+}
+
+func TestEecoder431(t *testing.T) {
+	testFiles(t,
+		"testdata/nyagos_issue_431.txt",
+		"testdata/nyagos_issue_431.txt",
+		mbcs.NewEncoder(932))
+}
