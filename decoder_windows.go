@@ -1,10 +1,15 @@
 package mbcs
 
 import (
-	"bytes"
-
 	"golang.org/x/text/transform"
 )
+
+var procIsDBCSLeadByteEx = kernel32.NewProc("IsDBCSLeadByteEx")
+
+func isDBCSLeadByteEx(cp uintptr, b byte) int {
+	rc, _, _ := procIsDBCSLeadByteEx.Call(cp, uintptr(b))
+	return int(rc)
+}
 
 func newDecoder(cp uintptr) transform.Transformer {
 	return _Decoder{CP: cp}
@@ -19,35 +24,56 @@ type _Decoder struct {
 func (f _Decoder) Reset() {}
 
 // Transform converts the ANSI string in src to a UTF8 string and stores it in dst.
-func (f _Decoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err error) {
-	for len(src) > 0 {
-		// println("called Transform")
-		n := bytes.IndexByte(src, '\n')
-		var from []byte
-		if n < 0 {
-			n = len(src)
-			from = src
-			if !atEOF {
-				return nDst, nSrc, transform.ErrShortSrc
+func (f _Decoder) transform(dst, src []byte) (nDst, nSrc int, err error) {
+	if f.CP == 65001 {
+		n := copy(dst, src)
+		return n, n, nil
+	}
+	n := 0
+	for n < len(src) {
+		if isDBCSLeadByteEx(f.CP, src[n]) != 0 {
+			if n+2 > len(src) {
+				err = transform.ErrShortSrc
+				break
 			}
+			n += 2
 		} else {
 			n++
-			from = src[:n]
 		}
-		to, err := ansiToUtf8(from, f.CP)
-		if err != nil {
+	}
+	utf8, _err := ansiToUtf8(src[:n], f.CP)
+	if _err != nil {
+		return 0, 0, _err
+	}
+
+	if len(dst) >= len(utf8) {
+		return copy(dst, utf8), n, err
+	}
+	return 0, 0, transform.ErrShortDst
+}
+
+func (f _Decoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err error) {
+	const step = 80
+	for {
+		var _ndst, _nsrc int
+		if len(src) > step {
+			_ndst, _nsrc, err = f.transform(dst, src[:step])
+		} else {
+			_ndst, _nsrc, err = f.transform(dst, src[:])
+		}
+		if err != nil && err != transform.ErrShortSrc {
 			return nDst, nSrc, err
 		}
-		if len(dst) < len(to) {
-			return nDst, nSrc, transform.ErrShortDst
+		nDst += _ndst
+		dst = dst[_ndst:]
+		nSrc += _nsrc
+		src = src[_nsrc:]
+
+		if len(src) <= 0 {
+			return nDst, nSrc, nil
 		}
-		for i, iEnd := 0, len(to); i < iEnd; i++ {
-			dst[i] = to[i]
+		if len(src) < 2 {
+			return nDst, nSrc, transform.ErrShortSrc
 		}
-		nSrc += n
-		nDst += len(to)
-		src = src[n:]
-		dst = dst[len(to):]
 	}
-	return nDst, nSrc, nil
 }

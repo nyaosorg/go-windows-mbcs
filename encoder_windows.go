@@ -32,7 +32,7 @@ func (f _Encoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err er
 			} else {
 				n = 0
 				for n < len(src) {
-					r,size := utf8.DecodeRune(src[n:])
+					r, size := utf8.DecodeRune(src[n:])
 					if r == utf8.RuneError {
 						break
 					}
