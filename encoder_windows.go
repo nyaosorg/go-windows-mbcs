@@ -2,6 +2,7 @@ package mbcs
 
 import (
 	"bytes"
+	"unicode/utf8"
 
 	"golang.org/x/text/transform"
 )
@@ -25,10 +26,22 @@ func (f _Encoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err er
 		n := bytes.IndexByte(src, '\n')
 		var from []byte
 		if n < 0 {
-			n = len(src)
-			from = src
-			if !atEOF {
-				return nDst, nSrc, transform.ErrShortSrc
+			if atEOF {
+				n = len(src)
+				from = src
+			} else {
+				n = 0
+				for n < len(src) {
+					r,size := utf8.DecodeRune(src[n:])
+					if r == utf8.RuneError {
+						break
+					}
+					n += size
+				}
+				if n <= 0 {
+					return nDst, nSrc, transform.ErrShortSrc
+				}
+				from = src[:n]
 			}
 		} else {
 			n++
