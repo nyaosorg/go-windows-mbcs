@@ -129,3 +129,15 @@ func TestEecoder431(t *testing.T) {
 		"testdata/nyagos_issue_431.txt",
 		mbcs.NewEncoder(932))
 }
+
+func BenchmarkDecoderFromCP932ToUTF8(b *testing.B) {
+	source, err := os.ReadFile("testdata/jugemu-cp932.txt")
+	if err != nil {
+		b.Fatal(err.Error())
+	}
+	decoder := mbcs.NewDecoder(932)
+	for i := 0; i < b.N; i++ {
+		r := transform.NewReader(bytes.NewReader(source), decoder)
+		io.Copy(io.Discard, r)
+	}
+}
