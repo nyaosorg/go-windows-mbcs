@@ -11,24 +11,41 @@ import (
 	"github.com/nyaosorg/go-windows-mbcs"
 )
 
-func testFiles(t *testing.T, aFilePath, uFilePath string, tr transform.Transformer) {
-	srcFd, err := os.Open(aFilePath)
-	if err != nil {
-		t.Fatal(err.Error())
-	}
-	defer srcFd.Close()
+func insertTop(source []byte, b byte) []byte {
+	output := make([]byte, len(source)+1)
+	output[0] = b
+	copy(output[1:], source)
+	return output
+}
 
-	expectUtf8, err := os.ReadFile(uFilePath)
+func testFiles(t *testing.T, aFilePath, uFilePath string, tr transform.Transformer) {
+	source, err := os.ReadFile(aFilePath)
 	if err != nil {
+		t.Helper()
 		t.Fatal(err.Error())
 	}
-	r := transform.NewReader(srcFd, tr)
-	resultUtf8, err := io.ReadAll(r)
+	expect, err := os.ReadFile(uFilePath)
 	if err != nil {
+		t.Helper()
 		t.Fatal(err.Error())
 	}
-	if !bytes.Equal(expectUtf8, resultUtf8) {
-		t.Fatalf("not equal:\n%#v\nand\n%#v", expectUtf8, resultUtf8)
+
+	for i := 0; i < 3; i++ {
+		// println("try:", i)
+		r := transform.NewReader(bytes.NewReader(source), tr)
+		result, err := io.ReadAll(r)
+		if err != nil {
+			t.Helper()
+			t.Fatal(err.Error())
+		}
+		if !bytes.Equal(expect, result) {
+			t.Helper()
+			os.WriteFile("error-result.bin", result, 0666)
+			t.Fatalf("not equal:\nExpect(size:%d)\nand\nResult(size:%d)\n", len(expect), len(result))
+		}
+		// Shift source and expect to test boundary at reading
+		source = insertTop(source, 'x')
+		expect = insertTop(expect, 'x')
 	}
 }
 
@@ -46,6 +63,7 @@ func TestDecoderFromUTF8ToUTF8On65001(t *testing.T) {
 		mbcs.NewDecoder(65001))
 }
 
+// target
 func TestDecoderFromCP932ToUTF8(t *testing.T) {
 	testFiles(t,
 		"testdata/jugemu-cp932.txt",
@@ -86,7 +104,8 @@ func TestDecoderByWriter(t *testing.T) {
 	resultUtf8 := buffer.Bytes()
 
 	if !bytes.Equal(expectUtf8, resultUtf8) {
-		t.Fatalf("not equal:\n%#v\nand\n%#v", expectUtf8, resultUtf8)
+		os.WriteFile("TestDecodeByWriter.bin", resultUtf8, 0666)
+		t.Fatalf("not equal: expect(%d bytes) and result(%d)\n", len(expectUtf8), len(resultUtf8))
 	}
 }
 
