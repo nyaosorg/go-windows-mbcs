@@ -16,7 +16,7 @@ const (
 	_Utf8Fixed
 )
 
-// Deprecated: Filter is the class like bufio.Scanner but detects the encoding-type
+// Filter is the class like bufio.Scanner but detects the encoding-type
 // and converts to utf8 on Windows. On other OSes, it works like bufio.Scanner
 type Filter struct {
 	sc       *bufio.Scanner
