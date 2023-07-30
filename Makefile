@@ -12,3 +12,6 @@ all:
 test:
 	go test
 	$(SET) "GOOS=linux" && $(MAKE) all
+
+bench:
+	go test -bench . -benchmem
