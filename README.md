@@ -3,7 +3,7 @@
 go-windows-mbcs
 ===============
 
-Convert between UTF8 and non-UTF8 character codes(ANSI) using Windows APIs: MultiByteToWideChar and WideCharToMultiByte.
+Convert between UTF-8 and ANSI (non-UTF-8) character encodings using Windows APIs: `MultiByteToWideChar` and `WideCharToMultiByte`.
 
 Although this library primarily uses Windows APIs, it also emulates similar functionality on Linux by inspecting the `$LANG` or `$LC_ALL` environment variables. (See below for details.)
 
@@ -38,7 +38,7 @@ func main() {
 }
 ```
 
-`mbcs.ACP` is the current codepage.
+`mbcs.ACP` represents the current code page.
 
 #### On Windows
 
@@ -55,7 +55,7 @@ $ env LC_ALL=ja_JP.Shift_JIS go run examples/AnsiToUtf8.go < testdata/jugemu-cp9
 UTF-8 (LF)
 ```
 
-When OS is not Windows, the current encoding is judged with $LC_ALL and $LANG.
+On non-Windows systems, the current encoding is determined based on the `$LC_ALL` and `$LANG` environment variables.
 
 Convert from UTF8-strings to ANSI-bytes
 ---------------------------------------
@@ -107,7 +107,7 @@ Shift_JIS (LF)
 Use golang.org/x/text/transform
 -------------------------------
 
-### Convert from ANSI-reader to UTF8-reader
+### Convert from an ANSI reader to a UTF-8 reader
 
 ```go
 package main
@@ -149,7 +149,7 @@ $ env LC_ALL=ja_JP.Shift_JIS go run examples/NewDecoder.go < testdata/jugemu-cp9
 UTF-8 (LF)
 ```
 
-### Convert from UTF8-reader to ANSI-reader
+### Convert from a UTF-8 reader to an ANSI reader
 
 ```go
 package main
