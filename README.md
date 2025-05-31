@@ -1,7 +1,9 @@
-[![Go Reference](https://pkg.go.dev/badge/github.com/nyaosorg/go-windows-mbcs.svg)](https://pkg.go.dev/github.com/nyaosorg/go-windows-mbcs)
-
 go-windows-mbcs
 ===============
+
+[![Go Reference](https://pkg.go.dev/badge/github.com/nyaosorg/go-windows-mbcs.svg)](https://pkg.go.dev/github.com/nyaosorg/go-windows-mbcs)
+[![Go Test](https://github.com/nyaosorg/go-windows-mbcs/actions/workflows/go.yml/badge.svg)](https://github.com/nyaosorg/go-windows-mbcs/actions/workflows/go.yml)
+
 
 Convert between UTF-8 and ANSI (non-UTF-8) character encodings using Windows APIs: `MultiByteToWideChar` and `WideCharToMultiByte`.
 
