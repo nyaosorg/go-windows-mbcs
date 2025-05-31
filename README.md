@@ -201,3 +201,11 @@ This library also supports Linux and other non-Windows platforms, where Windows 
 On such platforms, the current encoding is heuristically determined using the environment variables `$LC_ALL` and `$LANG`. The encoding name specified in these variables (such as `ja_JP.SJIS`) is matched against known encodings via [`golang.org/x/text/encoding/ianaindex.IANA`](https://pkg.go.dev/golang.org/x/text/encoding/ianaindex). If a suitable match is found, the library will convert between UTF-8 and the specified encoding accordingly.
 
 > ⚠️ Note: This approach is best-effort and currently verified only for Japanese encodings. Use with caution in other locales.
+
+## Author
+
+[hymkor (HAYAMA Kaoru)](https://github.com/hymkor)
+
+## License
+
+[MIT LICENSE](LICENSE)
