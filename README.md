@@ -5,6 +5,8 @@ go-windows-mbcs
 
 Convert between UTF8 and non-UTF8 character codes(ANSI) using Windows APIs: MultiByteToWideChar and WideCharToMultiByte.
 
+Although this library primarily uses Windows APIs, it also emulates similar functionality on Linux by inspecting the `$LANG` or `$LC_ALL` environment variables. (See below for details.)
+
 Convert from ANSI-bytes to UTF8-strings
 ---------------------------------------
 
@@ -189,3 +191,13 @@ Shift_JIS (LF)
 $ env LC_ALL=ja_JP.Shift_JIS go run examples/NewEncoder.go < testdata/jugemu-utf8.txt  | nkf --guess
 Shift_JIS (LF)
 ```
+
+### Platform notes
+
+#### On non-Windows (e.g. Linux)
+
+This library also supports Linux and other non-Windows platforms, where Windows API is not available.
+
+On such platforms, the current encoding is heuristically determined using the environment variables `$LC_ALL` and `$LANG`. The encoding name specified in these variables (such as `ja_JP.SJIS`) is matched against known encodings via [`golang.org/x/text/encoding/ianaindex.IANA`](https://pkg.go.dev/golang.org/x/text/encoding/ianaindex). If a suitable match is found, the library will convert between UTF-8 and the specified encoding accordingly.
+
+> ⚠️ Note: This approach is best-effort and currently verified only for Japanese encodings. Use with caution in other locales.
