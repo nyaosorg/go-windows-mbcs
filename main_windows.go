@@ -12,24 +12,24 @@ var wideCharToMultiByte = kernel32.NewProc("WideCharToMultiByte")
 var getConsoleCP = kernel32.NewProc("GetConsoleCP")
 
 func ansiToUtf8(mbcs []byte, codepage uintptr) (string, error) {
-	if mbcs == nil || len(mbcs) <= 0 {
+	if len(mbcs) == 0 {
 		return "", nil
 	}
-	size, _, _ := multiByteToWideChar.Call(
+	size, _, err := multiByteToWideChar.Call(
 		codepage, 0,
 		uintptr(unsafe.Pointer(&mbcs[0])),
 		uintptr(len(mbcs)),
 		uintptr(0), 0)
-	if size <= 0 {
-		return "", windows.GetLastError()
+	if size == 0 {
+		return "", err
 	}
 	utf16 := make([]uint16, size)
-	rc, _, _ := multiByteToWideChar.Call(
+	rc, _, err := multiByteToWideChar.Call(
 		codepage, 0,
 		uintptr(unsafe.Pointer(&mbcs[0])), uintptr(len(mbcs)),
 		uintptr(unsafe.Pointer(&utf16[0])), size)
 	if rc == 0 {
-		return "", windows.GetLastError()
+		return "", err
 	}
 	return windows.UTF16ToString(utf16), nil
 }
@@ -39,22 +39,22 @@ func utf8ToAnsi(utf8 string, codepage uintptr) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	size, _, _ := wideCharToMultiByte.Call(
+	size, _, err := wideCharToMultiByte.Call(
 		codepage, 0,
 		uintptr(unsafe.Pointer(&utf16[0])),
 		uintptr(len(utf16)),
 		uintptr(0), 0, uintptr(0), uintptr(0))
-	if size <= 0 {
-		return nil, windows.GetLastError()
+	if size == 0 {
+		return nil, err
 	}
 	mbcs := make([]byte, size)
-	rc, _, _ := wideCharToMultiByte.Call(
+	rc, _, err := wideCharToMultiByte.Call(
 		codepage, 0,
 		uintptr(unsafe.Pointer(&utf16[0])),
 		uintptr(len(utf16)),
 		uintptr(unsafe.Pointer(&mbcs[0])), size, uintptr(0), uintptr(0))
 	if rc == 0 {
-		return nil, windows.GetLastError()
+		return nil, err
 	}
 	if mbcs[size-1] == 0 {
 		mbcs = mbcs[:size-1]
