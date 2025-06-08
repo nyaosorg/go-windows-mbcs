@@ -204,6 +204,10 @@ On such platforms, the current encoding is heuristically determined using the en
 
 > ⚠️ Note: This approach is best-effort and currently verified only for Japanese encodings. Use with caution in other locales.
 
+## Acknowledgements
+
+- [Snshadow](https://github.com/Snshadow) - #1
+
 ## Author
 
 [hymkor (HAYAMA Kaoru)](https://github.com/hymkor)
