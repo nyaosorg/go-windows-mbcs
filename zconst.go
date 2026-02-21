@@ -5,6 +5,7 @@ const CP_ACP = 0
 const CP_MACCP = 2
 const CP_OEMCP = 1
 const CP_SYMBOL = 42
+const CP_THREAD_ACP = 3
 const CP_UTF7 = 65000
 const CP_UTF8 = 65001
 const MB_COMPOSITE = 2
