@@ -1,6 +1,6 @@
 package mbcs
 
-//go:generate go run github.com/nyaosorg/go-importconst
+//go:generate go run github.com/nyaosorg/go-importconst@latest
 //	<windows.h>
 //	CP_ACP
 //	CP_MACCP
